@@ -1,0 +1,4 @@
+getwd()
+
+library(RSQLite)
+
