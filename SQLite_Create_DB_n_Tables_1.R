@@ -29,7 +29,6 @@ head(mtcars)
 
 
 #Create a connection to our new database . CarsDB.db
-setwd('./data')
 
 setwd("D:/Al-Nafi-Tracks/DataScience/Data Collection and Data Wrangling/Database_SQL")
 getwd()
@@ -51,3 +50,6 @@ dbReadTable(conn, 'cars_data')
 rdd <- dbReadTable(conn, 'cars_data')
 
 dconn <- dbDisconnect(conn)
+
+library(usethis)
+
