@@ -53,3 +53,6 @@ dconn <- dbDisconnect(conn)
 
 library(usethis)
 
+dbGetQuery(conn,"SELECT * FROM cars_data LIMIT 10")
+
+dbGetQuery(conn, "SELECT car_names,hp,cyl FROM cars_data WHERE cyl = 8")
