@@ -56,3 +56,11 @@ library(usethis)
 dbGetQuery(conn,"SELECT * FROM cars_data LIMIT 10")
 
 dbGetQuery(conn, "SELECT car_names,hp,cyl FROM cars_data WHERE cyl = 8")
+
+avg_HpCyl <- dbGetQuery(conn, "SELECT cyl, AVG(hp) AS 'average_hp' FROM cars_data
+                        GROUP BY cyl
+                        ORDER BY average_hp")
+
+avg_HpCyl
+
+class(avg_HpCyl)
