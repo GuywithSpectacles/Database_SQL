@@ -101,3 +101,30 @@ dbExecute(conn, "INSERT INTO cars_data VALUES
 dbGetQuery(conn, "SELECT * FROM cars_data")
 
 dbDisconnect(conn)
+
+
+#SQLite Other Functions
+conn <- dbConnect(RSQLite::SQLite(), "CarsDB.db")
+
+#We can fetch all results:
+res <- dbSendQuery(conn, "SELECT * FROM cars_data WHERE cyl = 6")
+dbFetch(res)
+
+#Clear the result
+dbClearResult(res)
+
+#Or a chunk at a time
+res <- dbSendQuery(conn, "SELECT * FROM cars_data WHERE cyl = 8")
+while(!dbHasCompleted(res)){
+        chunk <- dbFetch(res, n = 5)
+        print(nrow(chunk))
+}
+
+#Clear the result
+dbClearResult(res)
+
+#Disconnect from the Database
+dbDisconnect(conn)
+
+conn
+
