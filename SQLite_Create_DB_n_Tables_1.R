@@ -33,6 +33,7 @@ head(mtcars)
 setwd("D:/Al-Nafi-Tracks/DataScience/Data Collection and Data Wrangling/Database_SQL")
 getwd()
 
+#SQLITE EXECUTE QUERY
 
 #Create or connect to database
 conn <- dbConnect(RSQLite::SQLite(), "CarsDB.db")
@@ -53,6 +54,8 @@ dconn <- dbDisconnect(conn)
 
 library(usethis)
 
+#SQLite Execute  Query 
+
 dbGetQuery(conn,"SELECT * FROM cars_data LIMIT 10")
 
 dbGetQuery(conn, "SELECT car_names,hp,cyl FROM cars_data WHERE cyl = 8")
@@ -64,3 +67,37 @@ avg_HpCyl <- dbGetQuery(conn, "SELECT cyl, AVG(hp) AS 'average_hp' FROM cars_dat
 avg_HpCyl
 
 class(avg_HpCyl)
+
+#Insert variable into Queries (Parameterised  Queries)
+
+mpg <- 18
+cyl <- 4
+#Result <- 0
+
+Result <- dbGetQuery(conn, 'SELECT car_names, mpg, cyl FROM 
+                     cars_data WHERE mpg >= ? AND cyl == ?', 
+                     params = c(mpg, cyl))
+Result
+
+
+#None Tabular Results\
+
+#Visualize the table before deletion
+dbGetQuery(conn, 'SELECT * FROM cars_data LIMIT 10')
+
+#Delete the column belonging to Mazda RX4
+dbExecute(conn, 'DELETE FROM cars_data WHERE car_names = "Mazda RX4 Wag"')
+
+#Visualize the new table after deletion
+dbGetQuery(conn, 'SELECT * FROM cars_data LIMIT 10')
+
+
+#Insert the data for the Mazda RX4.
+dbExecute(conn, "INSERT INTO cars_data VALUES
+          (21.0, 6, 160.0, 110, 3.90, 2.620, 16.46, 0, 1, 4, 4,
+           'Mazda RX4')")
+
+#See that we re-introduced the Mazda RX4 successfully at the end 
+dbGetQuery(conn, "SELECT * FROM cars_data")
+
+dbDisconnect(conn)
